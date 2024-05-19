@@ -23,8 +23,15 @@ namespace esphome
 
     static const char *const TAG = "bthome_receiver_base";
 
+    mac_address_t load_mac_address(const char *key, std::string &mac_address) {
+        preferences.begin("mac_prefs", false);
+        mac_address = preferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
+        preferences.end();
+    }
+
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(mac_address_t address)
     {
+
       auto btdevice = this->create_device(address);
       my_devices.emplace(address, btdevice);
 

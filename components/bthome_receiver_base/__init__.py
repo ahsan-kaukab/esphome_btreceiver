@@ -155,7 +155,8 @@ class Generator:
         return cv.Schema(
             {
                 cv.GenerateID(): cv.declare_id(self.device_class_factory()),
-                cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
+                #cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
+                cv.Required(CONF_MAC_ADDRESS): cv.string,
                 cv.Optional(CONF_NAME_PREFIX): cv.string,
                 cv.Optional(CONF_DUMP_OPTION): cv.enum(
                     DUMP_OPTION, upper=True, space="_"

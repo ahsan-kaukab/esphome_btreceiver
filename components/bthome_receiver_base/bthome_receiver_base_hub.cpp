@@ -26,18 +26,18 @@ namespace esphome
 
     static const char *const TAG = "bthome_receiver_base";
 
-    BTHomeReceiverBaseDevice string::load_mac_address(string key) {
-        string mac_address;
-        //ESPPreferences pref = new ESPPreferences();
-        //pref.setup_preferences();
-        //ESPPreferenceObject pref_obj = pref.make_preference(sizeof("ff:ff:ff:ff:ff:ff"),key);
-        //pref_obj.load(mac_address,sizeof("ff:ff:ff:ff:ff:ff"));*/
-        return mac_address;
+    uint64_t load_mac_address(char* key) {
+        uint8_t mac_address;
+        ESPPreferences pref = new ESPPreferences();
+        pref.setup_preferences();
+        ESPPreferenceObject pref_obj = pref.make_preference(8,key);
+        pref_obj.load(mac_address,8);
+        return *mac_address;
     }
 
-    BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(mac_address_t address)
+    BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(char* char_address)
     {
-
+     mac_address_t address  = load_mac_address(char_address);
       auto btdevice = this->create_device(address);
       my_devices.emplace(address, btdevice);
 
@@ -46,10 +46,10 @@ namespace esphome
 
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_sensor(BTHomeReceiverBaseDevice *btdevice, mac_address_t address, BTHomeReceiverBaseBaseSensor *sensor)
     {
-      if (!btdevice)
+      /*if (!btdevice)
         btdevice = get_device_by_address(address);
       if (!btdevice)
-        btdevice = add_device(address);
+        btdevice = add_device(address);*/
 
       // register new btsensor for the btdevice
       btdevice->register_sensor(sensor);

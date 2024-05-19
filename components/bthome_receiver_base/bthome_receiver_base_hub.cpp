@@ -28,8 +28,8 @@ namespace esphome
 
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::load_mac_address(string key) {
         string mac_address;
-        ESPPreferences pref = new ESPPreferences();
-        pref.setup_preferences();
+        //ESPPreferences pref = new ESPPreferences();
+        //pref.setup_preferences();
         //ESPPreferenceObject pref_obj = pref.make_preference(sizeof("ff:ff:ff:ff:ff:ff"),key);
         //pref_obj.load(mac_address,sizeof("ff:ff:ff:ff:ff:ff"));*/
         return mac_address;

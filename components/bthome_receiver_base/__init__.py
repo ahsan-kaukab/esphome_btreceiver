@@ -146,7 +146,23 @@ class Generator:
             self.hub_ = self.hub_factory()
         return self.hub_
 
-   
+    def generate_component_config(self):
+        CONFIG_SCHEMA = self.generate_component_schema()
+
+        return CONFIG_SCHEMA, self.to_code
+
+    def generate_component_device_schema(self):
+        return cv.Schema(
+            {
+                cv.GenerateID(): cv.declare_id(self.device_class_factory()),
+                cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
+                cv.Optional(CONF_NAME_PREFIX): cv.string,
+                cv.Optional(CONF_DUMP_OPTION): cv.enum(
+                    DUMP_OPTION, upper=True, space="_"
+                )
+            }
+        ).extend(self.event_schema)
+
     def generate_component_schema(self):
 
         CONFIG_SCHEMA = cv.Schema(

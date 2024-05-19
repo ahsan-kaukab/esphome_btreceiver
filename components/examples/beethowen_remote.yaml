@@ -1,0 +1,104 @@
+substitutions:
+  systemName: "beethowen-remote"
+
+globals:
+  - id: my_cycle_counter
+    type: uint64_t
+    restore_value: true
+    initial_value: "0"
+  - id: my_last_cycle_time
+    type: int
+    restore_value: true
+
+esphome:
+  name: $systemName
+  on_boot:
+    - lambda: |-
+        if (!isnan(id(my_cycle_counter)) && id(my_cycle_counter)>0) id(my_cycle_counter)++; else id(my_cycle_counter)=1;
+        ESP_LOGI("custom", "Cycle count %d.", id(my_cycle_counter));
+    - component.update: my_bmp085
+
+external_components:
+  - source: github://afarago/esphome_component_bthome
+    refresh: 1min
+
+esp8266:
+  board: d1_mini
+  restore_from_flash: false
+
+logger:
+  level: debug
+
+i2c:
+  scan: false
+  id: bus_a
+
+beethowen_transmitter:
+  id: my_beethowen_transmitter
+  # local_passkey: 0x1234
+  # remote_expected_passkey: 0x5678
+  connect_persistent: true
+  sensors:
+    - measurement_type: temperature
+      sensor_id: bmp085_temperature_sensor
+    - measurement_type: duration
+      sensor_id: cycle_time
+    - measurement_type: count_4
+      sensor_id: cycle_counter
+    - measurement_type: voltage
+      sensor_id: battery_voltage
+    - measurement_type: generic_boolean
+      sensor_id: binary_d6
+  auto_send: true
+  on_send_finished:
+    - lambda: |-
+        id(my_last_cycle_time) = millis();
+    - deep_sleep.enter
+
+sensor:
+  - platform: bmp085
+    id: my_bmp085
+    temperature:
+      id: bmp085_temperature_sensor
+      internal: true
+      filters:
+        - lambda: |-
+            if (x > 0.0) return x;
+            else return {};
+  - platform: adc
+    pin: A0
+    # pin: VCC ## debug, but remove multiply
+    id: battery_voltage
+    accuracy_decimals: 4
+    unit_of_measurement: "V"
+    filters:
+      # 4.2 V is scaled down to 1.0 V
+      - filter_out: nan # <-- Processing will stop here on unknown values.
+      - multiply: 4.2
+  - platform: template
+    id: cycle_time
+    lambda: |-
+      return (float)id(my_last_cycle_time) / 1000.0;
+  - platform: template
+    id: cycle_counter
+    lambda: |-
+      return id(my_cycle_counter);
+
+binary_sensor:
+  - platform: gpio
+    pin: D6
+    id: binary_d6
+    internal: true
+  - platform: gpio
+    pin:
+      number: D3
+      mode: INPUT_PULLUP
+      inverted: true
+    id: user_button
+    on_click:
+      - beethowen_transmitter.send_event: button_click
+
+deep_sleep:
+  run_duration: 20s # max run duration for safeguarding
+  sleep_duration: 60s
+  id: my_deep_sleep

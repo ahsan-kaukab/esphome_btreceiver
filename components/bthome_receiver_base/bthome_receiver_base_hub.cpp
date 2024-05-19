@@ -28,9 +28,9 @@ namespace esphome
 
     uint64_t load_mac_address(uint32_t key) {
         uint8_t *mac_address;
-        ESPPreferences pref = new ESPPreferences();
-        pref.setup_preferences();
-        ESPPreferenceObject pref_obj = pref.make_preference(8,key);
+        //ESPPreferences pref = new ESPPreferences();
+        ESPPreferences.setup_preferences();
+        ESPPreferenceObject pref_obj = ESPPreferences.make_preference(8,key);
         pref_obj.load(mac_address,8);
         return *mac_address;
     }

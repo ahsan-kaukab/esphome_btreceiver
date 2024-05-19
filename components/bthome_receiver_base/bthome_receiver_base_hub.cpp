@@ -8,7 +8,7 @@
 #include "esphome/components/sensor/sensor.h"
 
 #include "esphome/components/bthome_base/bthome_base_common.h"
-#include "esphome/components/esp32/preferences.h"
+#include "esphome/core/preferences.h"
 
 #include "bthome_receiver_base_common.h"
 #include "bthome_receiver_base_device.h"
@@ -31,7 +31,7 @@ namespace esphome
         preferences.begin("mac_prefs", false);
         mac_address = preferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
         preferences.end();
-        return mac_address;
+        //return mac_address;
     }
 
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(mac_address_t address)

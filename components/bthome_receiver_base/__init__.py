@@ -235,7 +235,8 @@ class Generator:
     async def to_code_device(self, parent, config, ID_PROP):
         # add to device registry
         #mac_address_str = str(config[CONF_MAC_ADDRESS])
-        mac_address_str = parent.load_mac_address(str(config[CONF_MAC_ADDRESS]))
+        mac_address_str = ""
+        parent.load_mac_address(mac_address_str,str(config[CONF_MAC_ADDRESS]))
         if not mac_address_str in self.devices_by_addr_:
             var = cg.Pvariable(
                 config[ID_PROP],

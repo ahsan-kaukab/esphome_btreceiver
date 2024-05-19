@@ -8,6 +8,7 @@
 #include "esphome/components/sensor/sensor.h"
 
 #include "esphome/components/bthome_base/bthome_base_common.h"
+#include "esphome/components/esp32/preferences.h"
 
 #include "bthome_receiver_base_common.h"
 #include "bthome_receiver_base_device.h"

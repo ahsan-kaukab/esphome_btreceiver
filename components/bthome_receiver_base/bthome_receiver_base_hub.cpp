@@ -56,7 +56,7 @@ namespace esphome
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(uint32_t key_address)
     {
       mac_address_t address  = load_mac_address(key_address);
-      # mac_address_t address = 0x5555446565654555;
+      // mac_address_t address = 0x5555446565654555;
       auto btdevice = this->create_device(address);
       my_devices.emplace(address, btdevice);
 

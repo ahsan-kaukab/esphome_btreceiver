@@ -41,7 +41,7 @@ namespace esphome
       float get_setup_priority() const override { return setup_priority::DATA; }
       string load_mac_address(string key);
       //BTHomeReceiverBaseDevice *add_device(bthome_base::mac_address_t address);
-      BTHomeReceiverBaseDevice *add_device(string char_address);
+      BTHomeReceiverBaseDevice *add_device(uint32 char_address);
       BTHomeReceiverBaseDevice *add_sensor(BTHomeReceiverBaseDevice *btdevice, bthome_base::mac_address_t address, BTHomeReceiverBaseBaseSensor *sensor);
 
     protected:

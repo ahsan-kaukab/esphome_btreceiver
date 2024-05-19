@@ -243,7 +243,7 @@ class Generator:
                 ExplicitClassPtrCast(
                     self.device_class_factory(),
                     #parent.add_device(config[CONF_MAC_ADDRESS].as_hex),
-                    parent.add_device(str(config[CONF_MAC_ADDRESS])),
+                    parent.add_device(int(config[CONF_MAC_ADDRESS])),
                 ),
             )
             await cg.register_component(var, config)

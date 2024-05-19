@@ -33,9 +33,9 @@ namespace esphome
         // ESPPreferenceObject pref_obj = pref.make_preference(8,key);
         // pref_obj.load(mac_address,8);
 
-        //ESPPreferences preff;
+        ESPPreferences preff;
         //pref.setup_preferences();
-        ESPPreferenceObject pref_obj = ESPPreferences.make_preference(8,key);
+        ESPPreferenceObject pref_obj = preff.make_preference(8,key);
         pref_obj.load(mac_address);
         
         return *mac_address;

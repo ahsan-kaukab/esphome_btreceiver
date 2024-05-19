@@ -19,28 +19,6 @@ namespace esphome
   {
     static const char *const TAG = "bthome_ble_receiver";
 
-    void setup() override {
-      // Load MAC addresses from NVS and set the global variables
-      load_mac_address("mac_address_1", mac_address_1_);
-      load_mac_address("mac_address_2", mac_address_2_);
-      load_mac_address("mac_address_3", mac_address_3_);
-    }
-
-    std::string get_mac_address_1() const { return mac_address_1_; }
-    std::string get_mac_address_2() const { return mac_address_2_; }
-    std::string get_mac_address_3() const { return mac_address_3_; }
-
-    void load_mac_address(const char *key, std::string &mac_address) {
-      preferences.begin("mac_prefs", false);
-      mac_address = preferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
-      preferences.end();
-    }
-
-    Preferences preferences;
-    std::string mac_address_1_;
-    std::string mac_address_2_;
-    std::string mac_address_3_;
-
     bool BTHomeBLEReceiverHub::parse_device(const esp32_ble_tracker::ESPBTDevice &device)
     {
       bool success = false;

@@ -70,6 +70,12 @@ namespace esphome
       if (!btdevice)
         btdevice = add_device(address);*/
 
+      /*if (!btdevice)
+        btdevice = get_device_by_address(load_mac_address(address));
+      if (!btdevice)
+        btdevice = add_device(address);*/
+
+
       // register new btsensor for the btdevice
       btdevice->register_sensor(sensor);
       return btdevice;

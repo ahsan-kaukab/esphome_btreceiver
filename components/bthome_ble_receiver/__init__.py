@@ -1,13 +1,13 @@
 """
  BTHome protocol virtual sensors for ESPHome
 
- Author: Attila Farago
+ Author: Ahsan Kaukab
  """
 
 import esphome.codegen as cg
 from esphome.components import bthome_receiver_base, esp32_ble_tracker
 
-CODEOWNERS = ["@afarago"]
+CODEOWNERS = ["@Ahsan"]
 DEPENDENCIES = ["esp32_ble_tracker"]
 AUTO_LOAD = [
     "bthome_base",

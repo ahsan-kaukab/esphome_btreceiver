@@ -27,18 +27,36 @@ namespace esphome
     static const char *const TAG = "bthome_receiver_base";
 
     uint64_t load_mac_address(uint32_t key) {
-        uint8_t *mac_address;
-        // ESPPreferences pref = new ESPPreferences();
-        // pref.setup_preferences();
-        // ESPPreferenceObject pref_obj = pref.make_preference(8,key);
-        // pref_obj.load(mac_address,8);
-
-        ESPPreferences preff;
-        //pref.setup_preferences();
-        ESPPreferenceObject pref_obj = preff.make_preference(8,key);
-        pref_obj.load(mac_address);
+        // uint8_t *mac_address;
+        // ESPPreferences preff;
+        // //pref.setup_preferences();
+        // ESPPreferenceObject pref_obj = preff.make_preference(8,key);
+        // pref_obj.load(mac_address);
         
-        return *mac_address;
+        // return *mac_address;
+
+        uint8_t mac_address[6]; // MAC address is typically 6 bytes
+        Preferences preferences;
+
+        // Initialize preferences with a namespace
+        preferences.begin("mac_namespace", true); // 'true' for read-only mode
+
+        // Load the preference value into mac_address array
+        if (preferences.getBytes(key, mac_address, sizeof(mac_address)) != sizeof(mac_address)) {
+            // Handle error if loading failed
+            ESP_LOGE("load_mac_address", "Failed to load MAC address for key %s", key);
+            preferences.end();
+            return 0; // or some error value
+        }
+
+        // Convert 6-byte MAC address to uint64_t
+        uint64_t mac = 0;
+        for (int i = 0; i < 6; i++) {
+            mac = (mac << 8) | mac_address[i];
+        }
+
+        preferences.end(); // Close the preferences
+        return mac;
     }
 
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(string char_address)

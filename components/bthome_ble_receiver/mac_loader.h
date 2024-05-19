@@ -10,20 +10,25 @@
 class MACLoader : public Component {
  public:
   void setup() override {
-    // Load MAC addresses from NVS and set the global variables
-    load_mac_address("mac_address_1", id(mac_address_1));
-    load_mac_address("mac_address_2", id(mac_address_2));
-    load_mac_address("mac_address_3", id(mac_address_3));
+    load_mac_address("mac_address_1", mac_address_1_);
+    load_mac_address("mac_address_2", mac_address_2_);
+    load_mac_address("mac_address_3", mac_address_3_);
   }
 
+  std::string get_mac_address_1() const { return mac_address_1_; }
+  std::string get_mac_address_2() const { return mac_address_2_; }
+  std::string get_mac_address_3() const { return mac_address_3_; }
+
  private:
-  void load_mac_address(const char *key, Global<std::string> &mac_global) {
+  void load_mac_address(const char *key, std::string &mac_address) {
     preferences.begin("mac_prefs", false);
-    std::string mac_address = preferences.getString(key, "ff:ff:ff:ff:ff:ff");
+    mac_address = preferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
     preferences.end();
-    mac_global = mac_address;
   }
 
   Preferences preferences;
+  std::string mac_address_1_;
+  std::string mac_address_2_;
+  std::string mac_address_3_;
 };
 #endif

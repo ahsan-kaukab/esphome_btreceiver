@@ -31,7 +31,7 @@ namespace esphome
         ESPPreferences.begin("mac_prefs", false);
         mac_address = ESPPreferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
         ESPPreferences.end();
-        //return mac_address;
+        return mac_address;
     }
 
     BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::add_device(mac_address_t address)

@@ -156,7 +156,7 @@ class Generator:
             {
                 cv.GenerateID(): cv.declare_id(self.device_class_factory()),
                 #cv.Required(CONF_MAC_ADDRESS): cv.mac_address,
-                cv.Required(CONF_MAC_ADDRESS): cv.string,
+                cv.Required(CONF_MAC_ADDRESS): cv.uint32_t,
                 cv.Optional(CONF_NAME_PREFIX): cv.string,
                 cv.Optional(CONF_DUMP_OPTION): cv.enum(
                     DUMP_OPTION, upper=True, space="_"
@@ -244,7 +244,7 @@ class Generator:
                 ExplicitClassPtrCast(
                     self.device_class_factory(),
                     #parent.add_device(config[CONF_MAC_ADDRESS].as_hex),
-                    parent.add_device(int(config[CONF_MAC_ADDRESS])),
+                    parent.add_device(cg.uint32(config[CONF_MAC_ADDRESS])),
                 ),
             )
             await cg.register_component(var, config)

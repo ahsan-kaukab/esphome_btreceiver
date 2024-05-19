@@ -26,7 +26,7 @@ namespace esphome
 
     static const char *const TAG = "bthome_receiver_base";
 
-    uint64_t load_mac_address(uint32_t key) {
+    uint64_t load_mac_address(const char* key) {
         // uint8_t *mac_address;
         // ESPPreferences preff;
         // //pref.setup_preferences();

@@ -26,11 +26,15 @@ namespace esphome
 
     static const char *const TAG = "bthome_receiver_base";
 
-    BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::load_mac_address(string mac_address,string key) {
-        //string mac_address;
-        ESPPreferences.begin("mac_prefs", false);
-        mac_address = ESPPreferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
-        ESPPreferences.end();
+    BTHomeReceiverBaseDevice *BTHomeReceiverBaseHub::load_mac_address(string key) {
+        string mac_address;
+        //ESPPreferences.begin("mac_prefs", false);
+        ESPPreferences pref = new ESPPreferences();
+        pref.setup_preferences();
+        ESPPreferenceObject pref_obj = pref.make_preference(sizeof("ff:ff:ff:ff:ff:ff"),key);
+        pref_obj.load(mac_address,sizeof("ff:ff:ff:ff:ff:ff"));
+        //mac_address = ESPPreferences.getString(key, "ff:ff:ff:ff:ff:ff").c_str();
+        // /ESPPreferences.end();
         return mac_address;
     }
 

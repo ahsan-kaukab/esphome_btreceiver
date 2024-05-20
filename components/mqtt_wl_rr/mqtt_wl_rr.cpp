@@ -1,6 +1,5 @@
 #include "mqtt_wl_rr.h"
 #include "esphome/core/log.h"
-#include "esphome/components/mqtt/mqtt_client.h"
 
 namespace esphome {
 namespace mqtt_wl_rr {

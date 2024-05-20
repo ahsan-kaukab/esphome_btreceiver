@@ -19,7 +19,6 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_MQTT_TOPIC): cv.string,
     cv.Optional(CONF_MAC_ADDRESS): cv.All(cv.ensure_list(cv.string), cv.Length(min=1)),
 }).extend(cv.COMPONENT_SCHEMA)
-#.extend(cv.COMPONENT_SCHEMA).extend(mqtt.MQTT_COMPONENT_SCHEMA)
 
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
